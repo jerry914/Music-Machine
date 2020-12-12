@@ -5,6 +5,8 @@ var users = [];
 var currentStep = 0;
 var beats = 0;
 var cellWidth, cellHeight;
+var playBtn;
+var machineIsOn = 0;
 // Sound
 var noteNames = ["A1", "B1", "C2", "D2", "E2", "F2"];
 var player = new Tone.Sampler(
@@ -18,9 +20,6 @@ var player = new Tone.Sampler(
       
     }
 );
-player.toMaster();
-Tone.Transport.scheduleRepeat(onBeat, "16n");
-Tone.Transport.bpm.value = 50;
 
 // Visuals
 var t = 10;
@@ -42,8 +41,10 @@ function setup() {
   cellHeight = 20;
   blue =  color(255, 207, 171);
 
-  // Sound
-  Tone.Transport.start();
+  button = createButton('click me');
+  button.position(19, 19);
+  button.mousePressed(startMachine);
+  
   // Sequencer
    //Initialize all sequencer cells.ON: 1. OFF: 0.
   for(var track = 0; track < nTracks; track++){
@@ -53,6 +54,15 @@ function setup() {
     }
   }
 }
+function startMachine(){
+ 
+  player.toMaster();
+  Tone.Transport.scheduleRepeat(onBeat, "16n");
+  Tone.Transport.bpm.value = 50;
+  Tone.Transport.start();
+  machineIsOn = 1;
+}
+
 
 function onBeat(time){
   // If the current beat is on, play it
@@ -97,7 +107,7 @@ function draw(){
   }
   
   // Highlight current step
-  if(beats > 0){
+  if(beats > 0 && machineIsOn){
   	var highlight = (beats - 1) % nSteps;
     fill(253, 188, 180, 50);
     noStroke();
