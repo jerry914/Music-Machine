@@ -29,7 +29,7 @@
   
   var uname = "Beat Machine";
   console.log(uname);
-  var ws = new WebSocket("ws://127.0.0.1:1234");
+  var ws = new WebSocket("ws://172.16.6.216:1234");
   ws.onopen = function() {
       var data = "system：Connection Succesful!";
       listMsg(data);
