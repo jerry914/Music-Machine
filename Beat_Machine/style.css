@@ -1,0 +1,18 @@
+html, body {  
+  width:360px;
+  height:500px;
+  margin: 0;
+  padding: 0px;
+}
+
+/* #font{
+  position:relative;
+  font-family: monospace;
+  font-style: oblique;
+  text-align: center;
+  font-size: 16px;
+  color:rgb(253, 124,120);
+ background-color:rgb(20,20,20);
+  padding:20px;
+  margin:0px;
+} */
