@@ -30,9 +30,7 @@ function setup() {
   cellHeight = 20;
   blue =  color(255, 207, 171);
 
-  button = createButton('click me');
-  button.position(19, 19);
-  button.mousePressed(startMachine);
+  startMachine();
   
   // Sequencer
    //Initialize all sequencer cells.ON: 1. OFF: 0.
@@ -44,18 +42,18 @@ function setup() {
   }
 }
 function startMachine(){
-  tone_head();
-  player = new Tone.Sampler(
-    {
-      "A1" : "sound1.mp3",
-      "B1" : "sound14.mp3",
-      "C2" : "sound11.mp3",
-      "D2" : "sound15.mp3",
-      "E2" : "sound6.mp3",
-      "F2" : "sound13.mp3"
-      
-    }
-);
+    
+    player = new Tone.Sampler(
+      {
+        "A1" : "sound1.mp3",
+        "B1" : "sound14.mp3",
+        "C2" : "sound11.mp3",
+        "D2" : "sound15.mp3",
+        "E2" : "sound6.mp3",
+        "F2" : "sound13.mp3"
+        
+      }
+  );
   player.toMaster();
   Tone.Transport.scheduleRepeat(onBeat, "16n");
   Tone.Transport.bpm.value = 50;
