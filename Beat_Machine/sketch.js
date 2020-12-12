@@ -9,18 +9,7 @@ var playBtn;
 var machineIsOn = 0;
 // Sound
 var noteNames = ["A1", "B1", "C2", "D2", "E2", "F2"];
-var player = new Tone.Sampler(
-    {
-      "A1" : "sound1.mp3",
-      "B1" : "sound14.mp3",
-      "C2" : "sound11.mp3",
-      "D2" : "sound15.mp3",
-      "E2" : "sound6.mp3",
-      "F2" : "sound13.mp3"
-      
-    }
-);
-
+var player;
 // Visuals
 var t = 10;
 var l = 20;
@@ -55,7 +44,18 @@ function setup() {
   }
 }
 function startMachine(){
- 
+  tone_head();
+  player = new Tone.Sampler(
+    {
+      "A1" : "sound1.mp3",
+      "B1" : "sound14.mp3",
+      "C2" : "sound11.mp3",
+      "D2" : "sound15.mp3",
+      "E2" : "sound6.mp3",
+      "F2" : "sound13.mp3"
+      
+    }
+);
   player.toMaster();
   Tone.Transport.scheduleRepeat(onBeat, "16n");
   Tone.Transport.bpm.value = 50;
