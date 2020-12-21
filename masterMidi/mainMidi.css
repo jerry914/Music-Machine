@@ -1,0 +1,41 @@
+body {
+  background-color: rgb(50, 50, 50);
+}
+
+.button {
+  position: relative;
+  left:5vw;
+  margin: 0 0 0 0;
+  border-style: none;
+  border-radius: 10px;
+  width:8vh;
+  height:12vh;
+  outline: none;
+
+}
+
+/*
+.button1 {
+  background:rgb(230, 239, 240,0.3);
+}
+.button2 {
+  background:rgb(200, 227, 239,0.3);
+}
+.button3 {
+  background:rgb(167, 202, 222,0.3);
+}
+.button4 {
+  background:rgb(148, 171, 201,0.3);
+}
+.button5 {
+  background:rgb(128, 151, 180,0.3);
+}
+.button6 {
+  background:rgb(150, 164, 196,0.3);
+}
+.button7 {
+  background:rgb(170, 184, 216,0.3);
+}
+.button8 {
+  background:rgb(204, 209, 228,0.3);
+} */

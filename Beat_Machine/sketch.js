@@ -125,12 +125,17 @@ function mousePressed(){
 
 
 function machine_action(user,beat){
-  
   let player_idx = users.indexOf(user);
   let beat_idx = parseInt(beat);
   if(player_idx!=-1 && beat_idx>=0 && beat_idx<8){
     console.log(player_idx,beat_idx);
     cells[player_idx][beat_idx] = !cells[player_idx][beat_idx] ;
+  }
+  if(user.indexOf("master")>=0){
+    console.log("main_midi",beat);
+    melody_x = parseInt(beat/5);
+    melody_y = beat%5;
+    cells[melody_x][melody_y] = !cells[melody_x][melody_y] ;
   }
 }
 

@@ -87,10 +87,7 @@ function send(idx) {
  */
 
 function dealUser(user_name, type, name_list) {
-    let user_idx = name_list.indexOf(uname);
-    if(user_idx >= 0){
-        midi_init(user_idx);
-    }
+    
 }
 
 /**
