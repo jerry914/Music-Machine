@@ -95,15 +95,14 @@ function dealUser(user_name, type, name_list) {
         })
     }
 
-    var plebeians = filterItems('master');
-    console.log(plebeians);
+    var plebeians = filterItems('host');
 
-    if(name_list.length>user_max){
-        if(name_list[name_list.length-1]==uname){
+    if(plebeians.length>user_max){
+        if(plebeians[plebeians.length-1]==uname){
             location.replace("userOverflow.html");
         }
     }
-    let user_idx = name_list.indexOf(uname);
+    let user_idx = plebeians.indexOf(uname);
     if(user_idx >= 0){
         midi_init(user_idx);
     }

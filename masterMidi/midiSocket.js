@@ -1,6 +1,6 @@
 // this is for master controller
 
-var uname = "master";/
+var uname = "host: master";
 var ws = new WebSocket("ws://"+myIP+":1234");
 
 ws.onopen = function() {
