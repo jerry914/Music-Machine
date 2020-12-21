@@ -4,6 +4,7 @@
     <script src="Tone.min.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8">
+    <script src="../config.js"></script>
 <style>
     </style>
   </head>
@@ -26,7 +27,7 @@
   
   var uname = "Beat Machine";
   console.log(uname);
-  var ws = new WebSocket("ws://172.16.6.216:1234");
+  var ws = new WebSocket("ws://"+myIP+":1234");
   ws.onopen = function() {
       var data = "system：Connection Succesful!";
       listMsg(data);

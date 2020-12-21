@@ -1,6 +1,8 @@
-var uname = "user "+uuid(8, 16);
+// this is for master controller
+
+var uname = "master";
 var ws = new WebSocket("ws://"+myIP+":1234");
-var user_max = 5;
+
 ws.onopen = function() {
     console.log("connecton sucessful")
 };
@@ -64,7 +66,6 @@ function confirm(event) {
     }
 }
 
-
 function send(idx) { 
     var msg = {
         'content': idx,
@@ -85,24 +86,7 @@ function send(idx) {
  * @param name_list 用户列表
  */
 
-
-
 function dealUser(user_name, type, name_list) {
-    
-    function filterItems(query) {
-        return name_list.filter(function(el) {
-            return el.toLowerCase().indexOf(query.toLowerCase()) == -1;
-        })
-    }
-
-    var plebeians = filterItems('master');
-    console.log(plebeians);
-
-    if(name_list.length>user_max){
-        if(name_list[name_list.length-1]==uname){
-            location.replace("userOverflow.html");
-        }
-    }
     let user_idx = name_list.indexOf(uname);
     if(user_idx >= 0){
         midi_init(user_idx);
@@ -116,36 +100,4 @@ function dealUser(user_name, type, name_list) {
 function sendMsg(msg) {
     var data = JSON.stringify(msg);
     ws.send(data);
-}
-
-/**
- * 生产一个全局唯一ID作为用户名的默认值;
- *
- * @param len
- * @param radix
- * @returns {string}
- */
-function uuid(len, radix) {
-    var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-    var uuid = [],
-        i;
-    radix = radix || chars.length;
-
-    if (len) {
-        for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random() * radix];
-    } else {
-        var r;
-
-        uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
-        uuid[14] = '4';
-
-        for (i = 0; i < 36; i++) {
-            if (!uuid[i]) {
-                r = 0 | Math.random() * 16;
-                uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
-            }
-        }
-    }
-
-    return uuid.join('');
 }

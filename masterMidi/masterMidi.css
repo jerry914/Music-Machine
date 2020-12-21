@@ -1,0 +1,16 @@
+body {
+  background-color: rgb(50, 50, 50);
+}
+
+.button {
+  position: relative;
+  left:50%;
+  margin: 0 0 0 -6vh;
+  border-style: none;
+  border-radius: 10px;
+  width:12vh;
+  height:12vh;
+  outline: none;
+
+}
+

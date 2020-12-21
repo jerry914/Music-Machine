@@ -1,21 +1,37 @@
 var nSteps = 8;
-var nTracks = 6;
+var nTracks = 10;
 var cells = [];
-var users = [];
 var currentStep = 0;
 var beats = 0;
 var cellWidth, cellHeight;
-var playBtn;
-var machineIsOn = 0;
 // Sound
-var noteNames = ["A1", "B1", "C2", "D2", "E2", "F2"];
-var player;
+var noteNames = ["C4", "D4", "E4", "F4", "G4", "A1", "B1", "C2", "D2", "E2"];
+var player = new Tone.Sampler(
+    {
+      "C4" : "piano1.mp3",
+      "D4" : "piano2.mp3",
+      "E4" : "piano3.mp3",
+      "F4" : "piano4.mp3",
+      "G4" : "piano5.mp3",
+      
+      "A1" : "sound1.mp3",
+      "B1" : "sound14.mp3",
+      "C2" : "sound11.mp3",
+      "D2" : "sound15.mp3",
+      "E2" : "sound6.mp3"
+    }
+);
+player.toMaster();
+Tone.Transport.scheduleRepeat(onBeat, "16n");
+Tone.Transport.bpm.value = 50;
+
 // Visuals
 var t = 10;
 var l = 20;
 var gridWidth, gridHeight, cellWidth, cellHeight;
 var blue;
-var colors = ["#ffc7ac","#fba09b","#ff7e82","#ff6a7f","#ff5970","#f2295d"];
+var colors = ["#ffc7ac","#fba09b","#ff7e82","#ff6a7f","#ff5970","#f2295d","#ffc7ac","#fba09b","#ff7e82","#ff6a7f","#ff5970","#f2295d"];
+
 
 function preLoad(){
   //bgm = loadSound('bgm2.mp3');
@@ -23,15 +39,15 @@ function preLoad(){
 
 
 function setup() {
-  createCanvas(360,140);
-  gridWidth = 500;
-  gridHeight = 500 - 2*t;
+  createCanvas(360,280);
+  gridWidth = 1000;
+  gridHeight = 1000 - 2*t;
   cellWidth = 400;
   cellHeight = 20;
   blue =  color(255, 207, 171);
 
-  startMachine();
-  
+  // Sound
+  Tone.Transport.start();
   // Sequencer
    //Initialize all sequencer cells.ON: 1. OFF: 0.
   for(var track = 0; track < nTracks; track++){
@@ -41,26 +57,6 @@ function setup() {
     }
   }
 }
-function startMachine(){
-    
-    player = new Tone.Sampler(
-      {
-        "A1" : "sound1.mp3",
-        "B1" : "sound14.mp3",
-        "C2" : "sound11.mp3",
-        "D2" : "sound15.mp3",
-        "E2" : "sound6.mp3",
-        "F2" : "sound13.mp3"
-        
-      }
-  );
-  player.toMaster();
-  Tone.Transport.scheduleRepeat(onBeat, "16n");
-  Tone.Transport.bpm.value = 50;
-  Tone.Transport.start();
-  machineIsOn = 1;
-}
-
 
 function onBeat(time){
   // If the current beat is on, play it
@@ -101,15 +97,15 @@ function draw(){
   // Draw vertical lines
   for(var i = 0; i <= nSteps; i++){
     var x = i*(cellWidth/10);
-    line(l + x, t, l + x, t + 120);
+    line(l + x, t, l + x, t + 200);
   }
   
   // Highlight current step
-  if(beats > 0 && machineIsOn){
+  if(beats > 0){
   	var highlight = (beats - 1) % nSteps;
     fill(253, 188, 180, 50);
     noStroke();
-    rect(l + highlight * (cellWidth/10), t, cellWidth/10, 120)
+    rect(l + highlight * (cellWidth/10), t, cellWidth/10, 200)
   }
 }
 function mousePressed(){
