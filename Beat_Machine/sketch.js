@@ -133,8 +133,8 @@ function machine_action(user,beat){
   }
   if(user.indexOf("master")>=0){
     console.log("main_midi",beat);
-    melody_y = parseInt(beat/5);
-    melody_x = beat%5+5;
+    melody_y = parseInt((beat-1)/5);
+    melody_x = (beat-1)%5+5;
     cells[melody_x][melody_y] = !cells[melody_x][melody_y] ;
   }
 }
