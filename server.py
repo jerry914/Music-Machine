@@ -42,7 +42,7 @@ async def chat(websocket, path):
         await asyncio.wait([user.send(message) for user in USERS.values()])
 
 
-start_server = websockets.serve(chat, "192.168.68.164", 1234)
+start_server = websockets.serve(chat, "192.168.68.172", 1234)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()

@@ -99,7 +99,7 @@ function dealUser(user_name, type, name_list) {
 
     if(plebeians.length>user_max){
         if(plebeians[plebeians.length-1]==uname){
-            location.replace("userOverflow.html");
+            location.replace("waitingPage/waitingPage.html");
         }
     }
     let user_idx = plebeians.indexOf(uname);
