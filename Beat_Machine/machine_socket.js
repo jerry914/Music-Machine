@@ -113,10 +113,7 @@ var speedVal = 50;
     else if(machine_data.length>1 && machine_data[0]!="host"){
         var user_data= machine_data[0].split(" ");
         if(user_data[0]=='user'){
-            var user_idx = users.indexOf(machine_data[0]);
-            if(user_idx!=-1){
-                machine_action(user_idx,parseInt(machine_data[1]));
-            }
+            machine_action(machine_data[0],machine_data[1]);
         }
     }
   }

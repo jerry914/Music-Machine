@@ -144,6 +144,7 @@ function machine_action(user,beat){
     console.log(player_idx,beat_idx);
     cells[player_idx][beat_idx] = !cells[player_idx][beat_idx] ;
   }
+  
   if(user=="master"){
     console.log("main_midi",beat);
     melody_y = parseInt((beat-1)/5);
