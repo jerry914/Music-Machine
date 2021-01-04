@@ -22,13 +22,14 @@ var player = new Tone.Sampler(
     }
 );
 player.toMaster();
-Tone.Transport.scheduleRepeat(onBeat, "16n");
-Tone.Transport.bpm.value = 50;
+// Tone.Transport.scheduleRepeat(onBeat, "16n");
+// Tone.Transport.bpm.value = 50;
 
 
 // Visuals
 var t = 10;
 var l = 20;
+var i;
 var gridWidth, gridHeight, cellWidth, cellHeight;
 var blue;
 var colors = ["#ffc7ac","#fba09b","#ff7e82","#ff6a7f","#ff5970","#f2295d","#ffc7ac","#fba09b","#ff7e82","#ff6a7f","#ff5970","#f2295d"];
@@ -59,18 +60,18 @@ function setup() {
   }
 }
 
-function onBeat(time){
+function onBeat(){
   var msg = {
     'content': str(currentStep),
     'type': 'send'
   };
   sendMsg(msg);
-  // If the current beat is on, play it
+  
   for(var track = 0; track < nTracks; track++){
     if(cells[track][currentStep] == 1){
       var note = noteNames[(noteNames.length - track - 1) % noteNames.length];
-      player.triggerAttack(note, time);
-      //image(cat, 10, 10, 50, 50);
+      player.triggerAttack(note);
+     
     }
   }
   beats++;
@@ -93,7 +94,7 @@ function draw(){
   
   stroke(blue);
   // Draw horizontal lines
-  for(var i = 0; i <= nTracks; i++){
+  for(i = 0; i <= nTracks; i++){
     var y = t + i*cellHeight;
     right = 340;
     line(l, y, right, y);
@@ -101,7 +102,7 @@ function draw(){
   }
   
   // Draw vertical lines
-  for(var i = 0; i <= nSteps; i++){
+  for(i = 0; i <= nSteps; i++){
     var x = i*(cellWidth/10);
     line(l + x, t, l + x, t + 200);
   }
@@ -113,8 +114,11 @@ function draw(){
     noStroke();
     rect(l + highlight * (cellWidth/10), t, cellWidth/10, 200)
   }
-  var theSpeed = floor(map(speedVal,0,100,28,128));
-  Tone.Transport.bpm.value=theSpeed;
+
+  var theSpeed = floor(map(speedVal,0,100,3,15));
+  if(frameCount%theSpeed == 0){
+    onBeat();
+  }
 }
 
 function mousePressed(){

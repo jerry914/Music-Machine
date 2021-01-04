@@ -99,7 +99,10 @@ var speedVal = 50;
     let machine_data = data.split(":");
     if(machine_data.length>1 && machine_data[0]=="host master"){
         var host_data = machine_data[1].split(" ");
-        if(host_data[1]=="speed"){
+        if(host_data[1]=="on" || host_data[1]=="off"){
+            console.log(host_data[1]);
+        }
+        else if(host_data[1]=="speed"){
             speedVal = host_data[2];
         }
         else{

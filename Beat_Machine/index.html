@@ -3,13 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Machine Frame</title>
+    <script src="../config.js"></script>
 </head>
 <body>
     <button onclick="open_machine()"> Click on me!</button>
 </body>
 </html>
 <script>
+    var uname = "host: Machine Frame";
+    var ws = new WebSocket("ws://"+myIP+":1234");
+    ws.onopen = function() {
+        var data = "system：Connection Succesful!";
+        listMsg(data);
+    };
+    ws.onmessage = function(e) {
+      var msg = JSON.parse(e.data);
+      var sender, user_name, name_list, change_type;
+
+      switch (msg.type) {
+          case 'system':
+              sender = 'system: ';
+              break;
+          case 'user':
+              sender = msg.from + ': ';
+              break;
+          case 'handshake':
+              var user_info = {
+                  'type': 'login',
+                  'content': uname
+              };
+              sendMsg(user_info);
+              return;
+          case 'login':
+          case 'logout':
+              return;
+      }
+      var data = sender + msg.content;
+      listMsg(data);
+    };
+    ws.onerror = function() {
+      var data = "system:出错了,请退出重试.";
+      listMsg(data);
+    };
+
+    window.onbeforeunload = function() {　　
+        var user_info = {
+            'type': 'logout',
+            'content': uname
+        };
+        sendMsg(user_info);
+        ws.close();
+    }
+
+    function listMsg(data) {
+        
+        let machine_data = data.split(":");
+        if(machine_data.length>1 && machine_data[0]=="host master"){
+            var host_data = machine_data[1].split(" ");
+            if(host_data[1]=="on" || host_data[1]=="off"){
+                if(host_data[1]=="on"){
+                    open_machine();
+                }
+                else{
+                    location.reload();
+                }
+            }
+        }
+    }
+    function sendMsg(msg) {
+        var data = JSON.stringify(msg);
+        ws.send(data);
+    }
     function open_machine(){
         var iframe = document.createElement('iframe');
         // iframe.style.display = "none";
