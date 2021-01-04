@@ -110,10 +110,11 @@ var speedVal = 50;
             machine_action('master',host_data[1]);
         }
     }
-    else if(machine_data.length>1){
+    else{
         var user_data= machine_data[0].split(" ");
         if(user_data[0]=='user'){
             var user_idx = user_data[1].indexOf(user_name);
+            console.log(user_idx,parseInt(machine_data[1]));
             if(user_idx!=-1){
                 machine_action(user_idx,parseInt(machine_data[1]));
             }
