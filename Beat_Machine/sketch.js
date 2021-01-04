@@ -24,6 +24,7 @@ var player = new Tone.Sampler(
 player.toMaster();
 Tone.Transport.scheduleRepeat(onBeat, "16n");
 Tone.Transport.bpm.value = 50;
+var speedVal =50;
 
 // Visuals
 var t = 10;
@@ -112,6 +113,8 @@ function draw(){
     noStroke();
     rect(l + highlight * (cellWidth/10), t, cellWidth/10, 200)
   }
+  var theSpeed = floor(map(speedVal,0,100,50,128));
+  Tone.Transport.bpm.value=theSpeed;
 }
 
 function mousePressed(){
@@ -151,9 +154,4 @@ function machine_kill_row(idx){
       cells[idx][i] = 0;
     }
   }
-}
-
-function machine_speed(val){
-  var theSpeed = floor(map(val,0,100,50,128));
-  Tone.Transport.bpm.value=theSpeed;
 }
