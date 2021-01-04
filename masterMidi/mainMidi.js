@@ -35,3 +35,23 @@ function changeColor(val) {
     document.getElementById("button"+val).style.background=blue[0]+50;
   }
 }
+
+function play_btn(){
+  currentvalue = document.getElementById('play_btn').value;
+  if(currentvalue == "Off"){
+    send('on');
+    document.getElementById('play_btn').value="On";
+    document.getElementById('play_btn').style.opacity = "100%"; 
+  }
+  else{
+    send('off');
+    document.getElementById('play_btn').value="Off";
+    document.getElementById('play_btn').style.opacity = "40%";
+  }
+}
+
+var slider = document.getElementById("speedRange");
+
+slider.oninput = function() {
+  send("speed "+this.value.toString());
+}

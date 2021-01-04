@@ -9,9 +9,66 @@ body {
   border-style: none;
   border-radius: 10px;
   width:8vh;
-  height:12vh;
+  height:10vh;
   outline: none;
+}
+.slidecontainer{
+  position: relative;
+  left: 5vw;
+  margin: 0 0 0 0;
+  border-style: none;
+  display: inline;
+  width: 32vh;
+  height:10vh;
+  outline: none;
+}
+.slider {
+  -webkit-appearance: none;
+  width: 34vh;
+  height: 10vh;
+  border-radius: 10px;
+  background: #d3d3d333;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
 
+.slider:hover {
+  opacity: 1;
+  transition: 0.4s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #4CAF50;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #4CAF50;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.slider::-webkit-slider-thumb:hover {
+  width: 50px;
+  height: 50px;
+}
+.slider::-moz-range-thumb:hover {
+  width: 50px;
+  height: 50px;
+}
+.play_btn{
+  background-color: burlywood;
+  opacity: 40%;
 }
 
 /*

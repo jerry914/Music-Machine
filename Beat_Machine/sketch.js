@@ -59,6 +59,11 @@ function setup() {
 }
 
 function onBeat(time){
+  var msg = {
+    'content': str(currentStep),
+    'type': 'send'
+  };
+  sendMsg(msg);
   // If the current beat is on, play it
   for(var track = 0; track < nTracks; track++){
     if(cells[track][currentStep] == 1){
@@ -108,6 +113,7 @@ function draw(){
     rect(l + highlight * (cellWidth/10), t, cellWidth/10, 200)
   }
 }
+
 function mousePressed(){
   // If the mouse is within the bounds of the canvas
   if( l < mouseX && mouseX < l + (gridWidth*10) &&
@@ -145,4 +151,9 @@ function machine_kill_row(idx){
       cells[idx][i] = 0;
     }
   }
+}
+
+function machine_speed(val){
+  var theSpeed = floor(map(val,0,100,50,128));
+  Tone.Transport.bpm.value=theSpeed;
 }
