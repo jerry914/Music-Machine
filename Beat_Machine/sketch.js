@@ -113,7 +113,7 @@ function draw(){
     noStroke();
     rect(l + highlight * (cellWidth/10), t, cellWidth/10, 200)
   }
-  var theSpeed = floor(map(speedVal,0,100,50,128));
+  var theSpeed = floor(map(speedVal,0,100,28,128));
   Tone.Transport.bpm.value=theSpeed;
 }
 
