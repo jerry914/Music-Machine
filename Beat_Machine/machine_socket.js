@@ -100,7 +100,7 @@ var speedVal = 50;
     if(machine_data.length>1 && machine_data[0]=="host master"){
         var host_data = machine_data[1].split(" ");
         if(host_data[1]=="speed"){
-            console.log(host_data[2]);
+            speedVal = host_data[2];
         }
         else{
             machine_action('master',host_data[1]);
