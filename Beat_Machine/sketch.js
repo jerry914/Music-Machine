@@ -24,7 +24,7 @@ var player = new Tone.Sampler(
 player.toMaster();
 Tone.Transport.scheduleRepeat(onBeat, "16n");
 Tone.Transport.bpm.value = 50;
-var speedVal =50;
+
 
 // Visuals
 var t = 10;
