@@ -97,7 +97,7 @@ var speedVal = 50;
     msg_list.appendChild(msg);
     msg_list.scrollTop = msg_list.scrollHeight;
     let machine_data = data.split(":");
-
+    
     if(machine_data.length>1 && machine_data[0]=="host master"){
         var host_data = machine_data[1].split(" ");
         if(host_data[1]=="on" || host_data[1]=="off"){
@@ -110,10 +110,10 @@ var speedVal = 50;
             machine_action('master',host_data[1]);
         }
     }
-    else{
+    else if(machine_data.length>1 && machine_data[0]!="host"){
         var user_data= machine_data[0].split(" ");
         if(user_data[0]=='user'){
-            var user_idx = users.indexOf(user_data[1]);
+            var user_idx = users.indexOf(machine_data[0]);
             if(user_idx!=-1){
                 machine_action(user_idx,parseInt(machine_data[1]));
             }
