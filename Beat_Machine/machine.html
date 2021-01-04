@@ -122,12 +122,12 @@
       msg_list.appendChild(msg);
       msg_list.scrollTop = msg_list.scrollHeight;
       let machine_data = data.split(":");
-      if(machine_data.length>1 && machine_data[0]!="system"){
+      if(machine_data.length>1 && machine_data[0]==" Beat Machine"){
         machine_action(machine_data[0],machine_data[1]);
       }
-      if(machine_data.length>1 && machine_data[0]=="host master"){
+      if(machine_data.length>1 && machine_data[0]==" master"){
           console.log(machine_data[1].split(" ")[1]);
-        speedVal = machine_data[1].split(" ")[1];
+          speedVal = machine_data[1].split(" ")[1];
       }
   }
 
