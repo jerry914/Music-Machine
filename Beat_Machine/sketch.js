@@ -139,11 +139,11 @@ function mousePressed(){
 
 function machine_action(user,beat){
   let player_idx = users.indexOf(user);
-  console.log(users,user,player_idx);
+  // console.log(users,user,player_idx);
   let beat_idx = parseInt(beat);
-  if(player_idx!=-1 && beat_idx>=0 && beat_idx<8){
-    console.log(player_idx,beat_idx);
-    cells[player_idx][beat_idx] = !cells[player_idx][beat_idx] ;
+  if(player_idx>0 && beat_idx>=0 && beat_idx<8){
+    console.log(player_idx-1,beat_idx);
+    cells[player_idx-1][beat_idx] = !cells[player_idx-1][beat_idx] ;
   }
   
   if(user=="master"){
