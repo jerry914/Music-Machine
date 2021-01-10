@@ -13,6 +13,7 @@
 <script>
     var uname = "host: Machine Frame";
     var ws = new WebSocket("ws://"+myIP+":1234");
+    var machine_state = 0;
     ws.onopen = function() {
         var data = "system：Connection Succesful!";
         listMsg(data);
@@ -62,10 +63,11 @@
         if(machine_data.length>1 && machine_data[0]=="host master"){
             var host_data = machine_data[1].split(" ");
             if(host_data[1]=="on" || host_data[1]=="off"){
-                if(host_data[1]=="on"){
+                if(host_data[1]=="on" && machine_state==0){
                     open_machine();
                 }
                 else{
+                    machine_state = 0;
                     location.reload();
                 }
             }
@@ -76,6 +78,7 @@
         ws.send(data);
     }
     function open_machine(){
+        machine_state=1;
         var iframe = document.createElement('iframe');
         // iframe.style.display = "none";
         iframe.src = "machine.html";

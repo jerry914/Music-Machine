@@ -1,5 +1,6 @@
 var speedVal = 50;
   var users = [];
+  
   var uname = "host: Beat Machine";
   console.log(uname);
   var ws = new WebSocket("ws://"+myIP+":1234");
@@ -112,7 +113,7 @@ var speedVal = 50;
     }
     else if(machine_data.length>1 && machine_data[0]!="host"){
         var user_data= machine_data[0].split(" ");
-        if(user_data[0]=='user'){
+        if(user_data[0]=='user' && machine_data[1]!=-1){
             machine_action(machine_data[0],machine_data[1]);
         }
     }
@@ -152,8 +153,6 @@ var speedVal = 50;
         }
       }
       
-      
-
       var change = type == 'login' ? 'online' : 'offline';
       var data = 'system:' + user_name + ' has ' + change;
       

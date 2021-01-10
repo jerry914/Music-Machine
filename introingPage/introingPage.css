@@ -1,0 +1,21 @@
+body {
+  background-color: rgb(50, 50, 50);
+  letter-spacing:5px;
+  @import url(https://fonts.googleapis.com/earlyaccess/cwtexfangsong.css);
+  font-family: ‘cwTeXFangSong’, serif;
+  text-align: center;
+}
+.wait{
+  font-size: 6vh;
+  color:#ebebeb;
+
+}
+.unicorn{
+  font-size: 2vh;
+  color:#b5b5b5;
+}
+
+.box{
+  height:25vh;
+  line-height:25vh;
+}

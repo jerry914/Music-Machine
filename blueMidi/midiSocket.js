@@ -32,7 +32,6 @@ ws.onmessage = function(e) {
             dealUser(user_name, change_type, name_list);
             return;
     }
-
 };
 
 ws.onerror = function() {
@@ -97,16 +96,25 @@ function dealUser(user_name, type, name_list) {
     }
 
     var plebeians = filterItems('host');
+    console.log(plebeians);
 
     if(plebeians.length>user_max){
         if(plebeians[plebeians.length-1]==uname){
-            location.replace("waitingPage/waitingPage.html");
+            location.replace("../waitingPage/waitingPage.html");
         }
     }
     if(type=='login' && user_name == uname){
         user_idx = plebeians.indexOf(uname);
-        if(user_idx >= 0){
+        if(user_idx >= 0 && user_idx<5){
             midi_init(user_idx);
+        }
+        else{
+            var user_info = {
+                'type': 'logout',
+                'content': uname
+            };
+            sendMsg(user_info);
+            ws.close();
         }
     }
     
