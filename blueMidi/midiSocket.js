@@ -117,6 +117,9 @@ function dealUser(user_name, type, name_list) {
             ws.close();
         }
     }
+    if(type=='logout' && user_name=="host: Beat Machine"){
+        location.replace("../endingPage/endingPage.html");
+    }
     
 }
 

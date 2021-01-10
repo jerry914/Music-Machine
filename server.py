@@ -71,9 +71,9 @@ async def chat(websocket, path):
                 message = json.dumps(
                     {"type": "logout", "content": data["content"], "user_list": list(USERS.keys())})
                 if data["content"].find("host")<0:
-                    midi_loop.clear_beats(strip,normal_users.index(name))
+                    midi_loop.clear_beats(strip,normal_users.index(data["content"]))
                     for i in range(8):
-                        midi_data[normal_users.index(name)][i] = 0
+                        midi_data[normal_users.index(data["content"])][i] = 0
                     normal_users.remove(data["content"])
                     
 
