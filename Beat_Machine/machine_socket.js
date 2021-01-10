@@ -140,17 +140,18 @@ var speedVal = 50;
       user_num.innerHTML = name_list.length;
       user_list.scrollTop = user_list.scrollHeight;
 
-      if(type=='login' && user_name!="Beat Machine"){
+      if(type=='login' && user_name!="host: Beat Machine"&& user_name!="host: Beat Frame"){
         users.push(user_name);
       }
-      else if(type=='logout'){
+      
+      if(type=='logout'){
         let rm_idx = users.indexOf(user_name);
-        if (index> -1) {
-         users.splice(rm_idx, 1);
-          machine_kill_row(rm_idx);
+        if (rm_idx>=0) {
+            // users.splice(rm_idx, 1);
+            machine_kill_row(rm_idx);
         }
-        
       }
+      
       
 
       var change = type == 'login' ? 'online' : 'offline';

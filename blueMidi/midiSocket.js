@@ -1,6 +1,7 @@
 var uname = "user "+uuid(8, 16);
 var ws = new WebSocket("ws://"+myIP+":1234");
 var user_max = 5;
+var user_idx;
 ws.onopen = function() {
     console.log("connecton sucessful")
 };
@@ -96,17 +97,19 @@ function dealUser(user_name, type, name_list) {
     }
 
     var plebeians = filterItems('host');
-    console.log(plebeians);
 
     if(plebeians.length>user_max){
         if(plebeians[plebeians.length-1]==uname){
             location.replace("waitingPage/waitingPage.html");
         }
     }
-    let user_idx = plebeians.indexOf(uname);
-    if(user_idx >= 0){
-        midi_init(user_idx);
+    if(type=='login' && user_name == uname){
+        user_idx = plebeians.indexOf(uname);
+        if(user_idx >= 0){
+            midi_init(user_idx);
+        }
     }
+    
 }
 
 /**
