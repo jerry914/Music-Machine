@@ -139,8 +139,8 @@ var speedVal = 50;
       }
       user_num.innerHTML = name_list.length;
       user_list.scrollTop = user_list.scrollHeight;
-    
-      if(type=='login' && user_name!="Beat Machine"){
+
+      if(type=='login' && user_name!="Beat Machine" && user_name!="Machine Frame"){
         users.push(user_name);
       }
       else if(type=='logout'){

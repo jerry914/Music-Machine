@@ -96,6 +96,7 @@ function dealUser(user_name, type, name_list) {
     }
 
     var plebeians = filterItems('host');
+    console.log(plebeians);
 
     if(plebeians.length>user_max){
         if(plebeians[plebeians.length-1]==uname){

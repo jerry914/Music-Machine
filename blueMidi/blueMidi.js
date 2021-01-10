@@ -11,10 +11,10 @@ var colorChoice;
 
 function midi_init(clicks){
   switch (clicks) {
-    case 0: colorChoice = red; break;
-    case 1: colorChoice = yellow; break;
-    case 2: colorChoice = green; break;
-    case 3: colorChoice = blue; break;
+    case 0: colorChoice = blue; break;
+    case 1: colorChoice = green; break;
+    case 2: colorChoice = yellow; break;
+    case 3: colorChoice = red; break;
     case 4: colorChoice = purple; break;
     default: colorChoice = '#ffffff'; break;
   }
