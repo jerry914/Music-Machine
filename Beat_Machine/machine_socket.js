@@ -141,7 +141,7 @@ var speedVal = 50;
       user_num.innerHTML = name_list.length;
       user_list.scrollTop = user_list.scrollHeight;
 
-      if(type=='login' && user_name!="host: Beat Machine"&& user_name!="host: Beat Frame"){
+      if(type=='login' && user_name!="host: Beat Machine"&& user_name!="host: Beat Frame" && user_name!="host master"){
         users.push(user_name);
       }
       
