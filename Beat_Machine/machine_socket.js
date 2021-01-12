@@ -109,9 +109,17 @@ for(var track = 0; track < nTracks; track++){
         midi_data[parseInt(msg_idx[0])][parseInt(msg_idx[1])] = !midi_data[parseInt(msg_idx[0])][parseInt(msg_idx[1])] ;
     }
     else if(sender_name[1]=="master"){
-        if(msg.content)
+        
+        var master_act = msg.content.split(" ");
+        if(master_act[0]=="speed"){
+            speedVal = parseInt(master_act[1]);
+        }
+        else{
+            console.log(msg.content);
             machine_action(msg.content);
+        }
     }
+    
   }
 
   /**

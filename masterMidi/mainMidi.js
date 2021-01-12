@@ -25,7 +25,7 @@ for(i=0;i<40;i++){
 }
 
 function changeColor(val) {
-  send(val);
+  send(val.toString());
   currentvalue = document.getElementById('button'+val).value;
   if(currentvalue == "Off"){
     document.getElementById("button"+val).value="On";
