@@ -101,12 +101,16 @@ for(var track = 0; track < nTracks; track++){
   }
 
   function listMsg(sender,msg) {
-      
+    
     var sender_name = sender.split(" ");
+    
     if(sender_name[0]=="user"){
         var msg_idx = msg.content.split(" ");
         midi_data[parseInt(msg_idx[0])][parseInt(msg_idx[1])] = !midi_data[parseInt(msg_idx[0])][parseInt(msg_idx[1])] ;
-        // send_midi_array(); 
+    }
+    else if(sender_name[1]=="master"){
+        if(msg.content)
+            machine_action(msg.content);
     }
   }
 

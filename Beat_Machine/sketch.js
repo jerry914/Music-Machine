@@ -20,8 +20,6 @@ var player = new Tone.Sampler(
     }
 );
 player.toMaster();
-// Tone.Transport.scheduleRepeat(onBeat, "16n");
-// Tone.Transport.bpm.value = 50;
 
 
 // Visuals
@@ -33,9 +31,6 @@ var blue;
 var colors = ["#ffc7ac","#fba09b","#ff7e82","#ff6a7f","#ff5970","#f2295d","#ffc7ac","#fba09b","#ff7e82","#ff6a7f","#ff5970","#f2295d"];
 
 
-function preLoad(){
-  //bgm = loadSound('bgm2.mp3');
-}
 
 
 function setup() {
@@ -57,7 +52,12 @@ function onBeat(){
     'type': 'send'
   };
   sendMsg(msg);
-  
+  for(var track = 0; track < nTracks; track++){
+    if(midi_data[track][currentStep] == 1){
+      var note = noteNames[(noteNames.length - track - 1) % noteNames.length];
+      player.triggerAttack(note);
+    }
+  }
   beats++;
   currentStep = beats % nSteps;
 }
@@ -121,21 +121,11 @@ function mousePressed(){
 }
 
 
-function machine_action(user,beat){
-  let player_idx = users.indexOf(user);
-  // console.log(users,user,player_idx);
-  let beat_idx = parseInt(beat);
-  if(player_idx!=-1 && beat_idx>=0 && beat_idx<8){
-    // console.log(player_idx,beat_idx);
-    midi_data[player_idx][beat_idx] = !midi_data[player_idx][beat_idx];
-  }
-  
-  if(user=="master"){
-    console.log("main_midi",beat);
-    melody_y = parseInt((beat-1)/5);
-    melody_x = (beat-1)%5+5;
-    midi_data[melody_x][melody_y] = !midi_data[melody_x][melody_y] ;
-  }
+function machine_action(beat){
+  console.log("main_midi",beat);
+  melody_y = parseInt((beat-1)/5);
+  melody_x = (beat-1)%5+5;
+  midi_data[melody_x][melody_y] = !midi_data[melody_x][melody_y] ;
 }
 
 function machine_kill_row(idx){
