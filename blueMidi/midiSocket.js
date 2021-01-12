@@ -1,21 +1,35 @@
-var uname = "user "+uuid(8, 16);
+const urlParams = new URLSearchParams(window.location.search);
+var user_idx = parseInt(urlParams.get('idx'));
+if(!user_idx){
+    user_idx = 0;
+}
+var uname = "user "+uuid(8,16);
+
 var ws = new WebSocket("ws://"+myIP+":1234");
-var user_max = 5;
-var user_idx;
+
 ws.onopen = function() {
-    console.log("connecton sucessful")
+    console.log("connecton sucessful");
+    midi_init(user_idx);
 };
+
+var nSteps = 8;
+var midi_data=[];
+
+for(var step = 0; step < nSteps; step++){
+    midi_data[step] = 0;
+}
+
 
 ws.onmessage = function(e) {
     var msg = JSON.parse(e.data);
-    var sender, user_name, name_list, change_type;
-
+    var sender;
     switch (msg.type) {
         case 'system':
             sender = '系统消息: ';
             break;
         case 'user':
-            sender = msg.from + ': ';
+            sender = msg.from;
+            listMsg(sender,msg);
             break;
         case 'handshake':
             var user_info = {
@@ -25,11 +39,9 @@ ws.onmessage = function(e) {
             sendMsg(user_info);
             return;
         case 'login':
+            login_state(msg);
+            break;
         case 'logout':
-            user_name = msg.content;
-            name_list = msg.user_list;
-            change_type = msg.type;
-            dealUser(user_name, change_type, name_list);
             return;
     }
 };
@@ -65,18 +77,51 @@ function confirm(event) {
 }
 
 
-function send(idx) { 
+function send(idx,data) { 
     var msg = {
-        'content': idx,
+        'content': user_idx+" "+idx+" "+data,
         'type': 'send'
     };
     sendMsg(msg);
 }
 
-/**
- * 将消息内容添加到输出框中,并将滚动条滚动到最下方
- */
 
+function listMsg(sender,msg){
+    var sender_name = sender.split(" ");
+    // if(sender_name[1]=="Beat_Machine"){
+    //     console.log(msg);
+    //     var ary_beat = msg.content.split(",");
+    //     if(ary_beat.length>8){
+    //         console.log(ary_beat);
+    //         for(var i=0;i<8;i++){
+    //             if(ary_beat[i+user_idx*8]=="true"){
+    //                 changeColor_bystate(i,true);
+    //             }
+    //             else{
+    //                 changeColor_bystate(i,false);
+    //             }
+    //         }
+    //     }
+    // }
+    
+    if(sender_name[0]=="user"){
+        var ary_beat = msg.content.split(" ");
+        if(parseInt(ary_beat[0])==user_idx){
+            changeColor_bystate(ary_beat[1],ary_beat[2]);
+        }
+    }
+}
+
+function login_state(msg){
+    for(var i=0;i<8;i++){
+        if(msg.midi_data[user_idx][i]=="1"){
+            changeColor_bystate(i,true);
+        }
+        else{
+            changeColor_bystate(i,false);
+        }
+    }
+}
 /**
  * 处理用户登陆消息
  *
@@ -87,40 +132,9 @@ function send(idx) {
 
 
 
+
 function dealUser(user_name, type, name_list) {
-    
-    function filterItems(query) {
-        return name_list.filter(function(el) {
-            return el.toLowerCase().indexOf(query.toLowerCase()) == -1;
-        })
-    }
 
-    var plebeians = filterItems('host');
-    console.log(plebeians);
-
-    if(plebeians.length>user_max){
-        if(plebeians[plebeians.length-1]==uname){
-            location.replace("../waitingPage/waitingPage.html");
-        }
-    }
-    if(type=='login' && user_name == uname){
-        user_idx = plebeians.indexOf(uname);
-        if(user_idx >= 0 && user_idx<5){
-            midi_init(user_idx);
-        }
-        else{
-            var user_info = {
-                'type': 'logout',
-                'content': uname
-            };
-            sendMsg(user_info);
-            ws.close();
-        }
-    }
-    if(type=='logout' && user_name=="host: Beat Machine"){
-        location.replace("../endingPage/endingPage.html");
-    }
-    
 }
 
 /**
@@ -131,15 +145,14 @@ function sendMsg(msg) {
     var data = JSON.stringify(msg);
     ws.send(data);
 }
-
-/**
- * 生产一个全局唯一ID作为用户名的默认值;
- *
- * @param len
- * @param radix
- * @returns {string}
- */
-function uuid(len, radix) {
+ /**
+   * 生产一个全局唯一ID作为用户名的默认值;
+   *
+   * @param len
+   * @param radix
+   * @returns {string}
+   */
+  function uuid(len, radix) {
     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
     var uuid = [],
         i;

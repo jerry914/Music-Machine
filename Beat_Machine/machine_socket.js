@@ -1,11 +1,24 @@
 var speedVal = 50;
-  var users = [];
-  
-  var uname = "host: Beat Machine";
-  console.log(uname);
-  var ws = new WebSocket("ws://"+myIP+":1234");
+var users = [];
+
+var uname = "host Beat_Machine";
+console.log(uname);
+var ws = new WebSocket("ws://"+myIP+":1234");
+var machine_open = false;
+
+var nSteps = 8;
+var nTracks = 10;
+var midi_data=[];
+for(var track = 0; track < nTracks; track++){
+    midi_data[track] = [];
+    for(var step = 0; step < nSteps; step++){
+        midi_data[track][step] = 0;
+    }
+}
+
   ws.onopen = function() {
       var data = "system：Connection Succesful!";
+      machine_open=true;
       listMsg(data);
   };
 
@@ -18,7 +31,8 @@ var speedVal = 50;
               sender = 'system: ';
               break;
           case 'user':
-              sender = msg.from + ': ';
+              sender = msg.from;
+              listMsg(sender,msg);
               break;
           case 'handshake':
               var user_info = {
@@ -36,8 +50,6 @@ var speedVal = 50;
               return;
       }
 
-      var data = sender + msg.content;
-      listMsg(data);
   };
 
   ws.onerror = function() {
@@ -88,34 +100,13 @@ var speedVal = 50;
       // todo 清除换行符
   }
 
-  /**
-   * 将消息内容添加到输出框中,并将滚动条滚动到最下方
-   */
-  function listMsg(data) {
-    var msg = document.createElement("p");
-
-    msg.innerHTML = data;
-    msg_list.appendChild(msg);
-    msg_list.scrollTop = msg_list.scrollHeight;
-    let machine_data = data.split(":");
-    
-    if(machine_data.length>1 && machine_data[0]=="host master"){
-        var host_data = machine_data[1].split(" ");
-        if(host_data[1]=="on" || host_data[1]=="off"){
-            console.log(host_data[1]);
-        }
-        else if(host_data[1]=="speed"){
-            speedVal = host_data[2];
-        }
-        else{
-            machine_action('master',host_data[1]);
-        }
-    }
-    else if(machine_data.length>1 && machine_data[0]!="host"){
-        var user_data= machine_data[0].split(" ");
-        if(user_data[0]=='user' && machine_data[1]!=-1){
-            machine_action(machine_data[0],machine_data[1]);
-        }
+  function listMsg(sender,msg) {
+      
+    var sender_name = sender.split(" ");
+    if(sender_name[0]=="user"){
+        var msg_idx = msg.content.split(" ");
+        midi_data[parseInt(msg_idx[0])][parseInt(msg_idx[1])] = !midi_data[parseInt(msg_idx[0])][parseInt(msg_idx[1])] ;
+        // send_midi_array(); 
     }
   }
 
@@ -126,36 +117,33 @@ var speedVal = 50;
    * @param type  login/logout
    * @param name_list 用户列表
    */
-  function dealUser(user_name, type, name_list) {
-      var user_list = document.getElementById("user_list");
-      var user_num = document.getElementById("user_num");
-      while (user_list.hasChildNodes()) {
-          user_list.removeChild(user_list.firstChild);
-      }
 
-      for (var index in name_list) {
-          var user = document.createElement("p");
-          user.innerHTML = name_list[index];
-          user_list.appendChild(user);
-      }
-      user_num.innerHTML = name_list.length;
-      user_list.scrollTop = user_list.scrollHeight;
 
-      if(type=='login' && user_name!="host: Beat Machine"&& user_name!="host: Beat Frame" && user_name!="host master"){
-        users.push(user_name);
-      }
-      
-      if(type=='logout'){
-        let rm_idx = users.indexOf(user_name);
-        if (rm_idx>=0) {
-            // users.splice(rm_idx, 1);
-            machine_kill_row(rm_idx);
+function smashArray(){
+    let data = "";
+    for(var track = 0; track < 5; track++){
+        for(var step = 0; step < 8; step++){
+            data += midi_data[track][step];
+            data += ",";
         }
-      }
-      
+    }
+    return data;
+}
+
+function send_midi_array(){
+    var msg = {
+        'content': smashArray(),
+        'type': 'send'
+    };
+    sendMsg(msg);
+}
+
+  function dealUser(user_name, type, name_list) {
+
       var change = type == 'login' ? 'online' : 'offline';
       var data = 'system:' + user_name + ' has ' + change;
       
+
       listMsg(data);
       
   }

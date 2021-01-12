@@ -1,6 +1,4 @@
-var nSteps = 8;
-var nTracks = 10;
-var cells = [];
+
 var currentStep = 0;
 var beats = 0;
 var cellWidth, cellHeight;
@@ -50,14 +48,7 @@ function setup() {
 
   // Sound
   Tone.Transport.start();
-  // Sequencer
-   //Initialize all sequencer cells.ON: 1. OFF: 0.
-  for(var track = 0; track < nTracks; track++){
-    cells[track] = [];
-    for(var step = 0; step < nSteps; step++){
-        cells[track][step] = 0;
-    }
-  }
+  
 }
 
 function onBeat(){
@@ -67,23 +58,16 @@ function onBeat(){
   };
   sendMsg(msg);
   
-  for(var track = 0; track < nTracks; track++){
-    if(cells[track][currentStep] == 1){
-      var note = noteNames[(noteNames.length - track - 1) % noteNames.length];
-      player.triggerAttack(note);
-     
-    }
-  }
   beats++;
   currentStep = beats % nSteps;
 }
 
 function draw(){
   background(40,40,40);
-  // Draw cells that are on
+  // Draw midi_data that are on
   for(var step = 0; step < nSteps; step++){
     for(var track = 0; track < nTracks; track++){
-      if(cells[track][step] == 1){
+      if(midi_data[track][step] == 1){
         var notePos = nTracks - 1 - track; 
         var col = colors[notePos % 7];
         fill(col);
@@ -116,7 +100,7 @@ function draw(){
   }
 
   var theSpeed = floor(map(speedVal,0,100,3,15));
-  if(frameCount%theSpeed == 0){
+  if(frameCount%theSpeed == 0 && machine_open){
     onBeat();
   }
 }
@@ -132,7 +116,7 @@ function mousePressed(){
     var i = floor(y / cellHeight);
     var j = floor(x / (cellWidth/10));
     // Toggle cell on/off
-    cells[i][j] = !cells[i][j];
+    midi_data[i][j] = !midi_data[i][j];
   }
 }
 
@@ -143,21 +127,21 @@ function machine_action(user,beat){
   let beat_idx = parseInt(beat);
   if(player_idx!=-1 && beat_idx>=0 && beat_idx<8){
     // console.log(player_idx,beat_idx);
-    cells[player_idx][beat_idx] = !cells[player_idx][beat_idx] ;
+    midi_data[player_idx][beat_idx] = !midi_data[player_idx][beat_idx];
   }
   
   if(user=="master"){
     console.log("main_midi",beat);
     melody_y = parseInt((beat-1)/5);
     melody_x = (beat-1)%5+5;
-    cells[melody_x][melody_y] = !cells[melody_x][melody_y] ;
+    midi_data[melody_x][melody_y] = !midi_data[melody_x][melody_y] ;
   }
 }
 
 function machine_kill_row(idx){
-  if(cells[idx]){
+  if(midi_data[idx]){
     for(let i=0;i<nSteps;i++){
-      cells[idx][i] = 0;
+      midi_data[idx][i] = 0;
     }
   }
 }

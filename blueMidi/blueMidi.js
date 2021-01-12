@@ -20,96 +20,35 @@ function midi_init(clicks){
   }
   
   for(i=0;i<8;i++){
-    document.getElementsByClassName("button"+i)[0].style.background=colorChoice[i]+50;
+    document.getElementsByClassName("button"+i)[0].style.background=colorChoice[i]+"50";
   }
 }
 
+function changeColor(idx){
+  if(document.getElementById("button"+idx).value == "Off"){
+    document.getElementById("button"+idx).value="On";
+    document.getElementById("button"+idx).style.background=colorChoice[0];
+  }else{
+    document.getElementById("button"+idx).value="Off";
+    document.getElementById("button"+idx).style.background=colorChoice[0]+"50";
+  }
+}
+function changeColor_bystate(idx,state){
+  if(state==true){
+    document.getElementById("button"+idx).value="On";
+    document.getElementById("button"+idx).style.background=colorChoice[0];
+  }else{
+    document.getElementById("button"+idx).value="Off";
+    document.getElementById("button"+idx).style.background=colorChoice[0]+"50";
+  }
+}
 
-function changeColor1() {
-  send(0);
-  currentvalue = document.getElementById('button1').value;
-  if(currentvalue == "Off"){
-    document.getElementById("button1").value="On";
-    document.getElementById("button1").style.background=colorChoice[0];
-  }else{
-    document.getElementById("button1").value="Off";
-    document.getElementById("button1").style.background=colorChoice[0]+50;
+function push_midi(idx){
+  if(midi_data[idx]==0){
+    midi_data[idx]=1;
   }
-}
-function changeColor2() {
-  send(1);
-  currentvalue = document.getElementById('button2').value;
-  if(currentvalue == "Off"){
-    document.getElementById("button2").value="On";
-    document.getElementById("button2").style.background=colorChoice[1];
-  }else{
-    document.getElementById("button2").value="Off";
-    document.getElementById("button2").style.background=colorChoice[1]+50;
+  else{
+    midi_data[idx]=0;
   }
-}
-function changeColor3() {
-  send(2);
-  currentvalue = document.getElementById('button3').value;
-  if(currentvalue == "Off"){
-    document.getElementById("button3").value="On";
-    document.getElementById("button3").style.background=colorChoice[2];
-  }else{
-    document.getElementById("button3").value="Off";
-    document.getElementById("button3").style.background=colorChoice[2]+50;
-  }
-}
-function changeColor4() {
-  send(3);
-  currentvalue = document.getElementById('button4').value;
-  if(currentvalue == "Off"){
-    document.getElementById("button4").value="On";
-    document.getElementById("button4").style.background=colorChoice[3];
-  }else{
-    document.getElementById("button4").value="Off";
-    document.getElementById("button4").style.background=colorChoice[3]+50;
-  }
-}
-function changeColor5() {
-  send(4);
-  currentvalue = document.getElementById('button5').value;
-  if(currentvalue == "Off"){
-    document.getElementById("button5").value="On";
-    document.getElementById("button5").style.background=colorChoice[4];
-  }else{
-    document.getElementById("button5").value="Off";
-    document.getElementById("button5").style.background=colorChoice[4]+50;
-  }
-}
-function changeColor6() {
-  send(5);
-  currentvalue = document.getElementById('button6').value;
-  if(currentvalue == "Off"){
-    document.getElementById("button6").value="On";
-    document.getElementById("button6").style.background=colorChoice[5];
-  }else{
-    document.getElementById("button6").value="Off";
-    document.getElementById("button6").style.background=colorChoice[5]+50;
-  }
-}
-function changeColor7() {
-  send(6);
-  currentvalue = document.getElementById('button7').value;
-  if(currentvalue == "Off"){
-    document.getElementById("button7").value="On";
-    document.getElementById("button7").style.background=colorChoice[6];
-  }else{
-    document.getElementById("button7").value="Off";
-    document.getElementById("button7").style.background=colorChoice[6]+50;
-  }
-}
-function changeColor8() {
-  send(7);
-  currentvalue = document.getElementById('button8').value;
-  if(currentvalue == "Off"){
-    document.getElementById("button8").value="On";
-    document.getElementById("button8").style.background=colorChoice[7];
-  }else{
-    document.getElementById("button8").value="Off";
-    document.getElementById("button8").style.background=colorChoice[7]+50;
-  }
+  send(idx,midi_data[idx]);
 }
