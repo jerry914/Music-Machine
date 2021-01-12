@@ -1,0 +1,31 @@
+body {
+  background-color: rgb(50, 50, 50);
+}
+
+.button {
+  position: relative;
+  left:50%;
+  margin: 0 0 0 -13vh;
+  //border-style: none;
+  border: 5px solid #323232;
+  -webkit-border-radius: 20px;
+  width:26vh;
+  height:19vh;
+  outline: none;
+
+}
+.button0 {
+  background:#99d8ff;
+}
+.button1 {
+  background:#99ffc9;
+}
+.button2 {
+  background:#ffc999;
+}
+.button3 {
+  background:#ff99c4;
+}
+.button4 {
+  background:#d199ff;
+}
