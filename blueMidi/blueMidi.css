@@ -6,8 +6,8 @@ body {
   position: relative;
   left:50%;
   margin: 0 0 0 -6vh;
-  border-style: none;
-  border-radius: 10px;
+  border: 1px solid #323232;
+  border-radius: 20px;
   width:12vh;
   height:12vh;
   outline: none;
@@ -22,4 +22,13 @@ body {
   height: 100%;
   width: 100%;
   cursor: pointer;
+}
+
+.btn:active {
+  transform: translateX(3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+.btn:active::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0;
 }

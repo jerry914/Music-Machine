@@ -1,11 +1,10 @@
-var blue = ["#e6eff0", "#c8e3ef","#a7cade","#94abc9","#8097b4","#96a4c4","#aab8d8","#ccd1e4"];
-var green= ["#deeade","#c2dac0","#94b79b","#78a188","#648c74","#8bafb3","#aec5cc","#d5dce3"];
-var red=["#e6d9d8","#e6c4c0","#f2acae","#ed9197","#e3686e","#f09988","#f2b7ac","#f5dcd7"];
-var yellow=["#efeadc","#f4e9af","#f5d888","#f2c173","#f2b555","#f2cd55","#f2db94","#f7edcd"];
-var purple=["#dbe3f4","#d6cff4","#b9badd","#a7a8d1","#9179b0","#ab8caf","#e4c5ed","#e6d8eb"]
+var blue = ["#a9e8fc","#9ae4fc","#8ae2ff","#77dbfc","#66d9ff","#54d5ff","#3dcfff","#14c4ff"];
+var green= ["#a9fcd5","#9dfccf","#8bfcc7","#79fcbe","#62fcb3","#4efca9","#3dfca0","#19ff93"];
+var orange=["#ffb09e","#fca490","#fc9983","#ff8e75","#ff8469","#fc7253","#ff6340","#ff542e"];
+var pink=["#ff99c4","#ff8fbe","#ff80b5","#ff70ac","#ff61a3","#ff549c","#ff4291","#ff3086"];
+var purple=["#c982fa","#c36ffc","#bc61fa","#b853fc","#b240ff","#a626fc","#9e14fa","#9700fc"]
 
 var button=["button0","button1","button2","button3","button4","button5","button6","button7"]
-
 
 var colorChoice;
 
@@ -13,33 +12,33 @@ function midi_init(clicks){
   switch (clicks) {
     case 0: colorChoice = blue; break;
     case 1: colorChoice = green; break;
-    case 2: colorChoice = yellow; break;
-    case 3: colorChoice = red; break;
+    case 2: colorChoice = orange; break;
+    case 3: colorChoice = pink; break;
     case 4: colorChoice = purple; break;
     default: colorChoice = '#ffffff'; break;
   }
-  
   for(i=0;i<8;i++){
-    document.getElementsByClassName("button"+i)[0].style.background=colorChoice[i]+"50";
+    document.getElementsByClassName("button"+i)[0].style.background="gray";
   }
 }
+
 
 function changeColor(idx){
   if(document.getElementById("button"+idx).value == "Off"){
     document.getElementById("button"+idx).value="On";
-    document.getElementById("button"+idx).style.background=colorChoice[0];
+    document.getElementById("button"+idx).style.background=colorChoice[idx];
   }else{
     document.getElementById("button"+idx).value="Off";
-    document.getElementById("button"+idx).style.background=colorChoice[0]+"50";
+    document.getElementById("button"+idx).style.background="gray";
   }
 }
 function changeColor_bystate(idx,state){
   if(state==true){
     document.getElementById("button"+idx).value="On";
-    document.getElementById("button"+idx).style.background=colorChoice[0];
+    document.getElementById("button"+idx).style.background=colorChoice[idx];
   }else{
     document.getElementById("button"+idx).value="Off";
-    document.getElementById("button"+idx).style.background=colorChoice[0]+"50";
+    document.getElementById("button"+idx).style.background="gray";
   }
 }
 
