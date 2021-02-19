@@ -5,29 +5,22 @@
     <title></title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <script src="config.js"></script>
-    <style>
-        p {
-            text-align: left;
-            padding-left: 20px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-    <div style="width: 800px;height: 600px;margin: 30px auto;text-align: center">
-        <div style="width: 800px;border: 1px solid gray;height: 300px;">
-            <div style="width: 200px;height: 300px;float: left;text-align: left;">
-                <p><span>online now:</span><span id="user_num">0</span></p>
+    
+    <div id="content">     
+            <div id="msg_list">
+            </div>
+            <div id="user_info">
+                <p><span>online now : </span><span id="user_num">0</span></p>
                 <div id="user_list" style="overflow: auto;">
-
                 </div>
             </div>
-            <div id="msg_list" style="width: 598px;border:  1px solid gray; height: 300px;overflow: scroll;float: left;">
-            </div>
-        </div>
-        <br>
-        <textarea id="msg_box" rows="6" cols="50" onkeydown="confirm(event)"></textarea><br>
-        <input type="button" value="发送" onclick="send()">
+
+        <textarea id="msg_box" rows="6" cols="50" onkeydown="confirm(event)"></textarea>
+        <div id="msg_btn" onclick="send()">發送</div>
     </div>
 </body>
 
@@ -35,11 +28,11 @@
 
 <script type="text/javascript">
     
-    var uname = "user "+uuid(8, 16);
+    var uname = "root_user "+uuid(8, 16);
     var ws = new WebSocket("ws://"+myIP+":1234");
     var user_max = 5;
     ws.onopen = function() {
-        var data = "系统消息：建立连接成功";
+        var data = "系统消息: 連線成功";
         listMsg(data);
     };
 
@@ -82,7 +75,7 @@
     };
 
     ws.onerror = function() {
-        var data = "系统消息 : 出错了,请退出重试.";
+        var data = "系统消息 : 出錯了,請退出重試.";
         listMsg(data);
     };
 

@@ -10,6 +10,7 @@ import midi_loop
 
 USERS = {}
 
+
 midi_data = [[0]*8 for i in range(10)]
 
 strip = midi_loop.init()
