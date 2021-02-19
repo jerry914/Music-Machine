@@ -34,7 +34,7 @@ var colors = ["#ffc7ac","#fba09b","#ff7e82","#ff6a7f","#ff5970","#f2295d","#ffc7
 
 
 function setup() {
-  createCanvas(360,280);
+  createCanvas(480,240);
   gridWidth = 1000;
   gridHeight = 1000 - 2*t;
   cellWidth = 400;
@@ -63,7 +63,7 @@ function onBeat(){
 }
 
 function draw(){
-  background(40,40,40);
+  background('#09023Faa');
   // Draw midi_data that are on
   for(var step = 0; step < nSteps; step++){
     for(var track = 0; track < nTracks; track++){
@@ -105,20 +105,7 @@ function draw(){
   }
 }
 
-function mousePressed(){
-  // If the mouse is within the bounds of the canvas
-  if( l < mouseX && mouseX < l + (gridWidth*10) &&
-      t < mouseY && mouseY < t + (gridHeight*5)){
-    // Account for margins
-    var x = mouseX - l;
-    var y = mouseY - t;
-    // Determine which cell the mouse is on
-    var i = floor(y / cellHeight);
-    var j = floor(x / (cellWidth/10));
-    // Toggle cell on/off
-    midi_data[i][j] = !midi_data[i][j];
-  }
-}
+
 
 
 function machine_action(beat){

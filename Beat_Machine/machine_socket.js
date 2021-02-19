@@ -49,7 +49,7 @@ for(var track = 0; track < nTracks; track++){
               dealUser(user_name, change_type, name_list);
               return;
       }
-
+      
   };
 
   ws.onerror = function() {
@@ -101,6 +101,7 @@ for(var track = 0; track < nTracks; track++){
   }
 
   function listMsg(sender,msg) {
+
     
     var sender_name = sender.split(" ");
     
