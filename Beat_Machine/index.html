@@ -1,18 +1,158 @@
-<!DOCTYPE html><html><head>
-    <script src="p5.min.js"></script>
-    <script src="p5.dom.min.js"></script>
-    <script src="Tone.min.js" type="text/javascript"></script>
-    <script src="easing.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Frame</title>
+    <script src="../config.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <meta charset="utf-8">
-     <script language="javascript" type="text/javascript" src="path/to/p5.sound.js"></script>
-<style>
-    </style>
-  </head>
-  <body>
-     <p id="font"> fill it!</p>
-    <script src="sketch.js"></script>
-   
-  
+</head>
+<body>
+    
+    <div id="content">     
+        <button onclick="open_machine()"> Click on me!</button>
+        <div id="msg_list">
+        </div>
+        <div id="user_info">
+            <p><span>online now : </span><span id="user_num">0</span></p>
+            <div id="user_list" style="overflow: auto;">
+            </div>
+        </div>
 
-</body></html>
+    <textarea id="msg_box" rows="6" cols="50" onkeydown="confirm(event)"></textarea>
+    <div id="msg_btn" onclick="send()">發送</div>
+</div>
+</body>
+</html>
+<script>
+    var uname = "host Machine_Frame";
+    var ws = new WebSocket("ws://"+myIP+":1234");
+    var machine_state = 0;
+    ws.onopen = function() {
+        var data = "system：Connection Succesful!";
+        listMsg(data);
+    };
+    ws.onmessage = function(e) {
+      var msg = JSON.parse(e.data);
+      var sender, user_name, name_list, change_type;
+
+      switch (msg.type) {
+          case 'system':
+              sender = 'system: ';
+              break;
+          case 'user':
+              sender = msg.from + ': ';
+              break;
+          case 'handshake':
+              var user_info = {
+                  'type': 'login',
+                  'content': uname
+              };
+              sendMsg(user_info);
+              return;
+          case 'login':
+          case 'logout':
+                user_name = msg.content;
+                name_list = msg.user_list;
+                change_type = msg.type;
+                dealUser(user_name, change_type, name_list);
+                return;
+      }
+      var data = sender + msg.content;
+      listMsg(data);
+    };
+    ws.onerror = function() {
+      var data = "system:出错了,请退出重试.";
+      listMsg(data);
+    };
+
+    window.onbeforeunload = function() {　　
+        var user_info = {
+            'type': 'logout',
+            'content': uname
+        };
+        sendMsg(user_info);
+        ws.close();
+    }
+
+    function confirm(event) {
+        var key_num = event.keyCode;
+        if (13 == key_num) {
+            send();
+        } else {
+            return false;
+        }
+    }
+    function send() {
+        var msg_box = document.getElementById("msg_box");
+        var content = msg_box.value;
+        var reg = new RegExp("\r\n", "g");
+        content = content.replace(reg, "");
+        var msg = {
+            'content': content.trim(),
+            'type': 'send'
+        };
+        sendMsg(msg);
+        msg_box.value = '';
+        // todo 清除换行符
+    }
+
+    function listMsg(data) {
+        var msg_list = document.getElementById("msg_list");
+        var msg = document.createElement("p");
+
+        msg.innerHTML = data;
+        msg_list.appendChild(msg);
+        msg_list.scrollTop = msg_list.scrollHeight;
+        var msg_list = document.getElementById("msg_list");
+
+
+        let machine_data = data.split(":");
+        if(machine_data.length>1 && machine_data[0]=="host master"){
+            var host_data = machine_data[1].split(" ");
+            if(host_data[1]=="on" || host_data[1]=="off"){
+                if(host_data[1]=="on" && machine_state==0){
+                    open_machine();
+                }
+                else{
+                    machine_state = 0;
+                    location.reload();
+                }
+            }
+        }
+    }
+    function dealUser(user_name, type, name_list) {
+        
+        var user_list = document.getElementById("user_list");
+        var user_num = document.getElementById("user_num");
+        while (user_list.hasChildNodes()) {
+            user_list.removeChild(user_list.firstChild);
+        }
+
+        for (var index in name_list) {
+            var user = document.createElement("p");
+            user.innerHTML = name_list[index];
+            user_list.appendChild(user);
+        }
+        user_num.innerHTML = name_list.length;
+        user_list.scrollTop = user_list.scrollHeight;
+
+        var change = type == 'login' ? 'online' : 'offline';
+        var data = '系统消息: ' + user_name + ' has ' + change;
+        listMsg(data);
+    }
+    function sendMsg(msg) {
+        var data = JSON.stringify(msg);
+        ws.send(data);
+    }
+    function open_machine(){
+        machine_state=1;
+        var iframe = document.createElement('iframe');
+        // iframe.style.display = "none";
+        iframe.src = "machine.html";
+        iframe.style.width = "480px";
+        iframe.style.height= "240px";
+        iframe.style.border= "none";
+        document.body.appendChild(iframe);
+    }
+</script>
